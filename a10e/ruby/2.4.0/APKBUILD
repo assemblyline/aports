@@ -1,9 +1,9 @@
 # Contributor: Carlo Landmeter <clandmeter@gmail.com>
-# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+# Maintainer: Ed Robinson <ed@reevoo.com>
 pkgname=ruby
-pkgver=2.3.3
-_abiver=2.3.0
-pkgrel=0
+pkgver=2.4.0
+_abiver=2.4.0
+pkgrel=1
 pkgdesc="An object-oriented language for quick and easy programming"
 url="http://www.ruby-lang.org/en/"
 arch="all"
@@ -11,14 +11,13 @@ license="Ruby"
 depends=""
 depends_dev="gmp-dev"
 makedepends="$depends_dev zlib-dev libressl-dev gdbm-dev db-dev readline-dev
-	libffi-dev coreutils yaml-dev linux-headers autoconf"
-# Maybe its a good idea to split dep libs to seperate pkgs.
+	libffi-dev coreutils yaml-dev autoconf"
 subpackages="$pkgname-doc $pkgname-dev $pkgname-irb::noarch
 	$pkgname-rdoc::noarch $pkgname-rake::noarch $pkgname-bigdecimal::noarch
 	$pkgname-io-console:io_console $pkgname-minitest::noarch
 	$pkgname-json $pkgname-libs
 	"
-source="ftp://ftp.ruby-lang.org/pub/ruby/${pkgver%.*}/$pkgname-$pkgver.tar.bz2"
+source="https://cache.ruby-lang.org/pub/$pkgname/${pkgver%.*}/$pkgname-$pkgver.tar.gz"
 options="!fhs"
 replaces="ruby-gems"
 builddir="$srcdir/$pkgname-$pkgver"
@@ -173,6 +172,6 @@ _mvgem() {
 	done
 }
 
-md5sums="04b9c461a2bc1eec0535ad1947cad4fb  ruby-2.3.3.tar.bz2"
-sha256sums="882e6146ed26c6e78c02342835f5d46b86de95f0dc4e16543294bc656594cc5b  ruby-2.3.3.tar.bz2"
-sha512sums="88f7782effd35bfe0b4c33140b5eb147d09b63fbb35b9c42d2200c010f387e2b70984ead1eca86569e8ec31f08b35289d440c0ca76b662dadb760f848e863d91  ruby-2.3.3.tar.bz2"
+md5sums="7e9485dcdb86ff52662728de2003e625  ruby-2.4.0.tar.gz"
+sha256sums="152fd0bd15a90b4a18213448f485d4b53e9f7662e1508190aa5b702446b29e3d  ruby-2.4.0.tar.gz"
+sha512sums="21c9f596b42dd9cba7a53963a59fed0c2e0c1eb960a4ac7087ea3eaa991ce9252d32639e1edcb75b1d709bc07c4820a6dc336ab427d0643c6e6498e0eacdbc8b  ruby-2.4.0.tar.gz"
