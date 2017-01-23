@@ -3,7 +3,9 @@
 pkgname=ruby
 pkgver=2.3.3
 _abiver=2.3.0
-pkgrel=0
+_rubygemsver=2.6.10
+_bundlerver=1.14.3
+pkgrel=100
 pkgdesc="An object-oriented language for quick and easy programming"
 url="http://www.ruby-lang.org/en/"
 arch="all"
@@ -11,13 +13,14 @@ license="Ruby"
 depends=""
 depends_dev="gmp-dev"
 makedepends="$depends_dev zlib-dev libressl-dev gdbm-dev db-dev readline-dev
-	libffi-dev coreutils yaml-dev linux-headers autoconf"
+	libffi-dev coreutils yaml-dev autoconf linux-headers"
 subpackages="$pkgname-doc $pkgname-dev $pkgname-irb::noarch
-	$pkgname-rdoc::noarch $pkgname-rake::noarch $pkgname-bigdecimal::noarch
-	$pkgname-io-console:io_console $pkgname-minitest::noarch
-	$pkgname-json $pkgname-libs
+	$pkgname-rdoc::noarch $pkgname-rake::noarch $pkgname-minitest::noarch
+	$pkgname-did_you_mean::noarch $pkgname-net-telnet::noarch
+	$pkgname-power_assert::noarch $pkgname-test-unit::noarch $pkgname-libs
 	"
-source="https://cache.ruby-lang.org/pub/$pkgname/${pkgver%.*}/$pkgname-$pkgver.tar.gz"
+source="https://cache.ruby-lang.org/pub/$pkgname/${pkgver%.*}/$pkgname-$pkgver.tar.gz
+https://rubygems.org/rubygems/rubygems-$_rubygemsver.tgz"
 options="!fhs"
 replaces="ruby-gems"
 builddir="$srcdir/$pkgname-$pkgver"
@@ -35,6 +38,12 @@ prepare() {
 	default_prepare || return 1
 
 	cd "$builddir"
+
+        # manualy update rubygems
+        rm -rf lib/rubygems
+        cp -R ../rubygems-$_rubygemsver/lib/* lib/
+        cp ../rubygems-$_rubygemsver/bin/gem bin/
+
 	autoconf
 }
 
@@ -67,8 +76,14 @@ build() {
 		--disable-rpath \
 		--enable-shared \
 		--with-mantype=man \
+		--disable-install-doc \
 		|| return 1
 	make || return 1
+
+        # adds bundler to bundled gems
+        make runruby TESTRUN_SCRIPT="bin/gem install -N --install-dir ./ bundler -v $_bundlerver" || return 1
+        printf "bundle $_bundlever\n" >> gems/bundled_gems
+
 	make test || return 1
 }
 
@@ -115,22 +130,6 @@ rdoc() {
 		usr/bin/rdoc
 }
 
-bigdecimal() {
-	pkgdesc="Ruby arbitrary-precision floating point decimal arithmetic"
-	depends="$pkgname"
-
-	_mvgem bigdecimal
-}
-
-io_console() {
-	pkgdesc="Ruby simple console IO library"
-	depends="$pkgname"
-
-	_mvgem io-console
-	_mv $_rubydir/io \
-		$_rubydir/$_chost/io/console.so
-}
-
 minitest() {
 	pkgdesc="Ruby suite of testing facilities"
 	depends="$pkgname"
@@ -138,11 +137,32 @@ minitest() {
 	_mvgem minitest
 }
 
-json() {
-	pkgdesc="JSON implementation as a Ruby extension in C"
+did_you_mean() {
+	pkgdesc="'did you mean?' experience in Ruby: the error message will tell you the right one when you misspelled something"
 	depends="$pkgname"
 
-	_mvgem json
+	_mvgem did_you_mean
+}
+
+telnet() {
+	pkgdesc="Provides telnet client functionality in Ruby/"
+	depends="$pkgname"
+
+	_mvgem net-telnet
+}
+
+power_assert() {
+	pkgdesc="Power Assert for Ruby"
+	depends="$pkgname"
+
+	_mvgem power_assert
+}
+
+unit() {
+	pkgdesc="A unit testing framework for Ruby"
+	depends="$pkgname"
+
+	_mvgem test-unit
 }
 
 libs() {
@@ -172,6 +192,9 @@ _mvgem() {
 	done
 }
 
-md5sums="e485f3a55649eb24a1e2e1a40bc120df  ruby-2.3.3.tar.gz"
-sha256sums="241408c8c555b258846368830a06146e4849a1d58dcaf6b14a3b6a73058115b7  ruby-2.3.3.tar.gz"
-sha512sums="80d9f3aaf1d60b9b2f4a6fb8866713ce1e201a3778ef9e16f1bedb7ccda35aefdd7babffbed1560263bd95ddcfe948f0c9967b5077a89db8b2e18cacc7323975  ruby-2.3.3.tar.gz"
+md5sums="e485f3a55649eb24a1e2e1a40bc120df  ruby-2.3.3.tar.gz
+ab5a0028d2a0653691b29d7463bd0892  rubygems-2.6.10.tgz"
+sha256sums="241408c8c555b258846368830a06146e4849a1d58dcaf6b14a3b6a73058115b7  ruby-2.3.3.tar.gz
+364c0eee8e0c9e8ab4879c5035832e5a27f0c97292d2264af5ae0020585280f0  rubygems-2.6.10.tgz"
+sha512sums="80d9f3aaf1d60b9b2f4a6fb8866713ce1e201a3778ef9e16f1bedb7ccda35aefdd7babffbed1560263bd95ddcfe948f0c9967b5077a89db8b2e18cacc7323975  ruby-2.3.3.tar.gz
+5f771e26fa57290a7dfb4c50778af4617964bb72141e757f538da2619ac36fa247715fb3f8cff314e5a573b27a38439c9a8a96fd37d806554e6f37d49608f6b7  rubygems-2.6.10.tgz"

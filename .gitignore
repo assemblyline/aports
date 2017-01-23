@@ -12,3 +12,5 @@ src
 pkg
 pkg-*
 build.log
+.DS_Store
+3.5/*

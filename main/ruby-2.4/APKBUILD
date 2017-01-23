@@ -1,9 +1,11 @@
 # Contributor: Carlo Landmeter <clandmeter@gmail.com>
 # Maintainer: Ed Robinson <ed@reevoo.com>
 pkgname=ruby
-pkgver=2.2.6
-_abiver=2.2.0
-pkgrel=0
+pkgver=2.4.0
+_abiver=2.4.0
+_rubygemsver=2.6.10
+_bundlerver=1.14.3
+pkgrel=100
 pkgdesc="An object-oriented language for quick and easy programming"
 url="http://www.ruby-lang.org/en/"
 arch="all"
@@ -11,13 +13,14 @@ license="Ruby"
 depends=""
 depends_dev="gmp-dev"
 makedepends="$depends_dev zlib-dev libressl-dev gdbm-dev db-dev readline-dev
-	libffi-dev coreutils yaml-dev autoconf"
+	libffi-dev coreutils yaml-dev autoconf linux-headers"
 subpackages="$pkgname-doc $pkgname-dev $pkgname-irb::noarch
-	$pkgname-rdoc::noarch $pkgname-rake::noarch $pkgname-bigdecimal::noarch
-	$pkgname-io-console:io_console $pkgname-minitest::noarch
-	$pkgname-json $pkgname-libs
+	$pkgname-rdoc::noarch $pkgname-rake::noarch $pkgname-minitest::noarch
+	$pkgname-did_you_mean::noarch $pkgname-net-telnet::noarch
+	$pkgname-power_assert::noarch $pkgname-test-unit::noarch $pkgname-libs
 	"
-source="https://cache.ruby-lang.org/pub/$pkgname/${pkgver%.*}/$pkgname-$pkgver.tar.gz"
+source="https://cache.ruby-lang.org/pub/$pkgname/${pkgver%.*}/$pkgname-$pkgver.tar.gz
+https://rubygems.org/rubygems/rubygems-$_rubygemsver.tgz"
 options="!fhs"
 replaces="ruby-gems"
 builddir="$srcdir/$pkgname-$pkgver"
@@ -35,6 +38,12 @@ prepare() {
 	default_prepare || return 1
 
 	cd "$builddir"
+
+        # manualy update rubygems
+        rm -rf lib/rubygems
+        cp -R ../rubygems-$_rubygemsver/lib/* lib/
+        cp ../rubygems-$_rubygemsver/bin/gem bin/
+
 	autoconf
 }
 
@@ -67,8 +76,14 @@ build() {
 		--disable-rpath \
 		--enable-shared \
 		--with-mantype=man \
+		--disable-install-doc \
 		|| return 1
 	make || return 1
+
+        # adds bundler to bundled gems
+        make runruby TESTRUN_SCRIPT="bin/gem install -N --install-dir ./ bundler -v $_bundlerver" || return 1
+        printf "bundle $_bundlever\n" >> gems/bundled_gems
+
 	make test || return 1
 }
 
@@ -115,22 +130,6 @@ rdoc() {
 		usr/bin/rdoc
 }
 
-bigdecimal() {
-	pkgdesc="Ruby arbitrary-precision floating point decimal arithmetic"
-	depends="$pkgname"
-
-	_mvgem bigdecimal
-}
-
-io_console() {
-	pkgdesc="Ruby simple console IO library"
-	depends="$pkgname"
-	_mvgem io-console
-
-	_mv $_rubydir/io \
-		$_rubydir/$_chost/io/console.so
-}
-
 minitest() {
 	pkgdesc="Ruby suite of testing facilities"
 	depends="$pkgname"
@@ -138,11 +137,32 @@ minitest() {
 	_mvgem minitest
 }
 
-json() {
-	pkgdesc="JSON implementation as a Ruby extension in C"
+did_you_mean() {
+	pkgdesc="'did you mean?' experience in Ruby: the error message will tell you the right one when you misspelled something"
 	depends="$pkgname"
 
-	_mvgem json
+	_mvgem did_you_mean
+}
+
+telnet() {
+	pkgdesc="Provides telnet client functionality in Ruby/"
+	depends="$pkgname"
+
+	_mvgem net-telnet
+}
+
+power_assert() {
+	pkgdesc="Power Assert for Ruby"
+	depends="$pkgname"
+
+	_mvgem power_assert
+}
+
+unit() {
+	pkgdesc="A unit testing framework for Ruby"
+	depends="$pkgname"
+
+	_mvgem test-unit
 }
 
 libs() {
@@ -172,6 +192,9 @@ _mvgem() {
 	done
 }
 
-md5sums="918ffe08c46f542199724659cfd54547  ruby-2.2.6.tar.gz"
-sha256sums="de8e192791cb157d610c48a9a9ff6e7f19d67ce86052feae62b82e3682cc675f  ruby-2.2.6.tar.gz"
-sha512sums="221ea2d18ff23e65539ee184e09ef78643e46266a0ca18ccd2cb251970a6c057b843363f7c97541b2a6e68e1c3c41a36e2ae5c8218da888e0429473504abf66d  ruby-2.2.6.tar.gz"
+md5sums="7e9485dcdb86ff52662728de2003e625  ruby-2.4.0.tar.gz
+ab5a0028d2a0653691b29d7463bd0892  rubygems-2.6.10.tgz"
+sha256sums="152fd0bd15a90b4a18213448f485d4b53e9f7662e1508190aa5b702446b29e3d  ruby-2.4.0.tar.gz
+364c0eee8e0c9e8ab4879c5035832e5a27f0c97292d2264af5ae0020585280f0  rubygems-2.6.10.tgz"
+sha512sums="21c9f596b42dd9cba7a53963a59fed0c2e0c1eb960a4ac7087ea3eaa991ce9252d32639e1edcb75b1d709bc07c4820a6dc336ab427d0643c6e6498e0eacdbc8b  ruby-2.4.0.tar.gz
+5f771e26fa57290a7dfb4c50778af4617964bb72141e757f538da2619ac36fa247715fb3f8cff314e5a573b27a38439c9a8a96fd37d806554e6f37d49608f6b7  rubygems-2.6.10.tgz"

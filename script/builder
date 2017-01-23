@@ -1,0 +1,26 @@
+#!/bin/sh
+
+set -eu
+
+builddirs() {
+  dirname $(find main -path "*/APKBUILD" -type f)
+}
+
+prepare() {
+  mkdir -p "$REPODEST" /home/builder/.abuild
+  abuild-apk update
+  [ "$RSA_PRIVATE_KEY" ] && {
+    echo -e "$RSA_PRIVATE_KEY" > "/home/builder/.abuild/$RSA_PRIVATE_KEY_NAME"
+    export PACKAGER_PRIVKEY="/home/builder/.abuild/$RSA_PRIVATE_KEY_NAME"
+  }
+}
+
+main() {
+  prepare
+  for dir in $(builddirs)
+  do
+    (cd $dir && abuild "$@" || exit 1)
+  done
+}
+
+main "$@"
