@@ -15,35 +15,31 @@ Subject: Use system-provided CA certificates instead of bundled ones
  };
  
  X509_STORE* root_cert_store;
-@@ -688,25 +688,33 @@
- 
- 
+@@ -693,22 +693,32 @@ static int X509_up_ref(X509* cert) {
+
+
  static X509_STORE* NewRootCertStore() {
 +  X509_STORE* store = X509_STORE_new();
 +
    if (!root_certs_vector) {
      root_certs_vector = new std::vector<X509*>;
- 
+
 -    for (size_t i = 0; i < arraysize(root_certs); i++) {
 -      BIO* bp = NodeBIO::NewFixed(root_certs[i], strlen(root_certs[i]));
 -      X509 *x509 = PEM_read_bio_X509(bp, nullptr, CryptoPemCallback, nullptr);
 -      BIO_free(bp);
 -
--      if (x509 == nullptr) {
--        // Parse errors from the built-in roots are fatal.
--        ABORT();
--        return nullptr;
--      }
+-      // Parse errors from the built-in roots are fatal.
+-      CHECK_NE(x509, nullptr);
 +    BIO* bio = BIO_new(BIO_s_file());
 +    if (bio == nullptr) {
 +      abort();
 +      return nullptr;
 +    }
-+
+
+-      root_certs_vector->push_back(x509);
 +    if (BIO_read_filename(bio, "/etc/ssl/certs/ca-certificates.crt") == 1) {
 +      STACK_OF(X509_INFO)* certs = PEM_X509_INFO_read_bio(bio, nullptr, nullptr, nullptr);
- 
--      root_certs_vector->push_back(x509);
 +      for (int i = 0; i < sk_X509_INFO_num(certs); i++) {
 +        X509* cert = sk_X509_INFO_value(certs, i)->x509;
 +
@@ -56,7 +52,7 @@ Subject: Use system-provided CA certificates instead of bundled ones
      }
 +    BIO_free_all(bio);
    }
- 
+
 -  X509_STORE* store = X509_STORE_new();
    for (auto& cert : *root_certs_vector) {
      X509_up_ref(cert);
