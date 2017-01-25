@@ -12,3 +12,4 @@ ENV RSA_PRIVATE_KEY_NAME ssh.rsa
 ENV PACKAGER_PRIVKEY /home/builder/${RSA_PRIVATE_KEY_NAME}
 ENV REPODEST /packages
 COPY main ./main
+RUN sudo chown -R builder:abuild main
