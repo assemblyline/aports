@@ -16,12 +16,27 @@ prepare() {
   }
 }
 
+sync() {
+  [ "$AWS_ACCESS_KEY_ID" ] && [ "$AWS_SECRET_ACCESS_KEY" ] && {
+    case "$1" in
+      up)
+        aws s3 sync $REPODEST $REPOREMOTE
+        ;;
+      down)
+        aws s3 sync $REPOREMOTE $REPODEST
+        ;;
+    esac
+  }
+}
+
 main() {
   prepare
+  sync down
   for dir in $(builddirs)
   do
     (cd $dir && abuild -r "$@") || exit 1
   done
+  sync up
 }
 
 main "$@"

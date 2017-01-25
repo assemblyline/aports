@@ -8,6 +8,9 @@ mkdir -p repo
 
 docker run \
   --rm \
+  -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
+  -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
+  -e REPOREMOTE=$REPOREMOTE \
   -e RSA_PRIVATE_KEY="$(cat $PWD/keys/alpine-devel@a10e.org-58886ad0.rsa)" \
   -e RSA_PRIVATE_KEY_NAME="alpine-devel@a10e.org-58886ad0.rsa" \
   -e USER_ID=`id -u $USER` \
