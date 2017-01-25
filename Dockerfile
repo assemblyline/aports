@@ -5,9 +5,10 @@ RUN apk --no-cache add alpine-sdk coreutils \
   && mkdir /packages \
   && chown builder:abuild /packages
 USER builder
-COPY builder /bin/
+COPY script/builder /bin/
 ENTRYPOINT ["builder", "-r"]
 WORKDIR /home/builder/aports
 ENV RSA_PRIVATE_KEY_NAME ssh.rsa
 ENV PACKAGER_PRIVKEY /home/builder/${RSA_PRIVATE_KEY_NAME}
 ENV REPODEST /packages
+COPY main ./main
