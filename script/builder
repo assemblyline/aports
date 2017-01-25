@@ -26,7 +26,7 @@ sync() {
         aws s3 sync $REPOREMOTE $REPODEST
         ;;
     esac
-  }
+  } || echo "No AWS credentials not running sync"
 }
 
 main() {
@@ -34,7 +34,7 @@ main() {
   sync down
   for dir in $(builddirs)
   do
-    (cd $dir && abuild -r "$@") || exit 1
+    (cd $dir && abuild -r -k "$@") || exit 1
   done
   sync up
 }
