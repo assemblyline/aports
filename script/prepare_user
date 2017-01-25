@@ -1,0 +1,16 @@
+#!/bin/sh
+
+set -eu
+
+create_user() {
+  adduser -u $USER_ID -G abuild -g "Package Builder" -s /bin/ash -D builder
+  echo "builder ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+  chown -R builder:abuild /packages
+}
+
+main() {
+  create_user
+  su-exec builder "$@"
+}
+
+main "$@"

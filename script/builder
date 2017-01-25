@@ -7,8 +7,8 @@ builddirs() {
 }
 
 prepare() {
+  cd /home/builder/aports
   mkdir -p "$REPODEST" /home/builder/.abuild
-  sudo chown -R builder:abuild /packages
   abuild-apk update
   [ "$RSA_PRIVATE_KEY" ] && {
     echo -e "$RSA_PRIVATE_KEY" > "/home/builder/.abuild/$RSA_PRIVATE_KEY_NAME"
@@ -20,7 +20,7 @@ main() {
   prepare
   for dir in $(builddirs)
   do
-    (cd $dir && abuild "$@")
+    (cd $dir && abuild -r "$@")
   done
 }
 
