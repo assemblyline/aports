@@ -1,0 +1,69 @@
+# Contributor: Jakub Jirutka <jakub@jirutka.cz>
+# Maintainer: Ed Robinson <ed@reevoo.com>
+pkgname=nodejs
+pkgver=7.4.0
+pkgrel=100
+pkgdesc="JavaScript runtime built on V8 engine - current stable version"
+url="http://nodejs.org/"
+arch="all"
+license="MIT"
+depends="ca-certificates"
+depends_dev="libuv"
+# gold is needed for mksnapshot
+makedepends="$depends_dev python2 openssl-dev zlib-dev libuv-dev linux-headers
+  paxmark binutils-gold http-parser-dev ca-certificates"
+subpackages="$pkgname-dev $pkgname-doc"
+replaces="nodejs nodejs-lts"  # nodejs-lts for backward compatibility
+source="https://nodejs.org/dist/v$pkgver/node-v$pkgver.tar.gz
+  use-system-ca-certs.patch
+  dont-run-gyp-files-for-bundled-deps.patch"
+builddir="$srcdir/node-v$pkgver"
+
+prepare() {
+  default_prepare || return 1
+
+  # Remove bundled CA certificates.
+  rm -f src/node_root_certs.h
+
+  # Remove bundled dependencies that we're not using.
+  rm -rf deps/http_parser deps/openssl deps/uv deps/zlib
+}
+
+build() {
+  cd "$builddir"
+
+  ./configure --prefix=/usr \
+    --shared-zlib \
+    --shared-libuv \
+    --shared-openssl \
+    --shared-http-parser \
+    || return 1
+
+  # we need run mksnapshot at build time so paxmark it early
+  make -C out mksnapshot BUILDTYPE=Release \
+    && paxmark -m out/Release/mksnapshot \
+    && make || return 1
+}
+
+package() {
+  cd "$builddir"
+
+  make DESTDIR="$pkgdir" install || return 1
+  # paxmark so JIT works
+  paxmark -m "$pkgdir"/usr/bin/node || return 1
+
+  cp -pr "$pkgdir"/usr/lib/node_modules/npm/man "$pkgdir"/usr/share || return 1
+  local d; for d in doc html man; do
+    rm -r "$pkgdir"/usr/lib/node_modules/npm/$d || return 1
+  done
+}
+
+md5sums="9732aba61759bc97d2bb2e7d82453f83  node-v7.4.0.tar.gz
+a785f2e6018cdace456b0ab518474453  use-system-ca-certs.patch
+5b1b27a33063602990f5495d3b01b587  dont-run-gyp-files-for-bundled-deps.patch"
+sha256sums="69b76c86e6fc9914fa136089d8c28a4828c14aa8792cbdf946090a5a2afd25b6  node-v7.4.0.tar.gz
+e0384006b04fef35c2c5e65d0cde6aae7efbc314d38c3c9ade0ae599f2b77bc2  use-system-ca-certs.patch
+6886ee83f76eb68dc948da844e548f060caf360ca039bb2c1ee7ea0cd2d8dbf3  dont-run-gyp-files-for-bundled-deps.patch"
+sha512sums="2f69502430d3940b711ef46d7b400b5983234c47114e1729fe94c5b81bd4ea78917c2dba755bc6e6343a788b95553b9a39ae778daa9903407bf76caa07d82f85  node-v7.4.0.tar.gz
+877669ed466606bc6afd67083d82b365a969b6626f4248a7f41249958a96e7bb6a6c656715c7b80e763bb53c6cf5789e604e15e05ff74f58e5441acc560350af  use-system-ca-certs.patch
+ba95f21b1e80717ef63941854e7ed412f64a91da068c0dbf0d6d9697333ee266c9f4cd7bf1a01111eeb28aa66adefd8a58cfb3e82debb84b43e35e9dc914dd36  dont-run-gyp-files-for-bundled-deps.patch"
