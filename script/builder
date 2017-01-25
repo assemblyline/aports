@@ -26,7 +26,7 @@ sync() {
         aws s3 sync $REPOREMOTE $REPODEST
         ;;
     esac
-  } || echo "No AWS credentials not running sync"
+  } || echo ">>> s3: No AWS credentials not running sync"
 }
 
 main() {
