@@ -20,7 +20,7 @@ main() {
   prepare
   for dir in $(builddirs)
   do
-    (cd $dir && abuild -r "$@")
+    (cd $dir && abuild -r "$@") || exit 1
   done
 }
 

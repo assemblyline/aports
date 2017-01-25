@@ -2,7 +2,7 @@
 
 set -e
 
-docker build -t assemblyline/abuild .
+docker build -t assemblyline/abuild script/.
 
 mkdir -p repo
 
