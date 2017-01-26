@@ -6,7 +6,7 @@
 # Maintainer: Ed Robinson <ed@reevoo.com>
 pkgname=nodejs
 pkgver=6.9.4
-pkgrel=100
+pkgrel=101
 pkgdesc="JavaScript runtime built on V8 engine - LTS version"
 url="http://nodejs.org/"
 arch="all"
@@ -48,6 +48,7 @@ build() {
   make -C out mksnapshot BUILDTYPE=Release \
     && paxmark -m out/Release/mksnapshot \
     && make || return 1
+  make test || return 1
 }
 
 package() {
