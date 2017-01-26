@@ -15,8 +15,7 @@ makedepends="$depends_dev python2 openssl-dev zlib-dev libuv-dev linux-headers
 subpackages="$pkgname-dev $pkgname-doc"
 replaces="nodejs nodejs-lts"  # nodejs-lts for backward compatibility
 source="https://nodejs.org/dist/v$pkgver/node-v$pkgver.tar.gz
-  use-system-ca-certs.patch
-  dont-run-gyp-files-for-bundled-deps.patch"
+  use-system-ca-certs.patch"
 builddir="$srcdir/node-v$pkgver"
 
 prepare() {
@@ -24,9 +23,6 @@ prepare() {
 
   # Remove bundled CA certificates.
   rm -f src/node_root_certs.h
-
-  # Remove bundled dependencies that we're not using.
-  rm -rf deps/http_parser deps/openssl deps/uv deps/zlib
 }
 
 build() {
@@ -59,11 +55,8 @@ package() {
 }
 
 md5sums="9732aba61759bc97d2bb2e7d82453f83  node-v7.4.0.tar.gz
-391dadece3caea603003e022d90ba87b  use-system-ca-certs.patch
-5b1b27a33063602990f5495d3b01b587  dont-run-gyp-files-for-bundled-deps.patch"
+391dadece3caea603003e022d90ba87b  use-system-ca-certs.patch"
 sha256sums="69b76c86e6fc9914fa136089d8c28a4828c14aa8792cbdf946090a5a2afd25b6  node-v7.4.0.tar.gz
-dad9470333c07df46bcb46823ce6bf6d606b4146cf9996ef847c458befde8219  use-system-ca-certs.patch
-6886ee83f76eb68dc948da844e548f060caf360ca039bb2c1ee7ea0cd2d8dbf3  dont-run-gyp-files-for-bundled-deps.patch"
+dad9470333c07df46bcb46823ce6bf6d606b4146cf9996ef847c458befde8219  use-system-ca-certs.patch"
 sha512sums="2f69502430d3940b711ef46d7b400b5983234c47114e1729fe94c5b81bd4ea78917c2dba755bc6e6343a788b95553b9a39ae778daa9903407bf76caa07d82f85  node-v7.4.0.tar.gz
-5c2c4863d5b38ca0bbd81aa8ff5e721cfd3d8c07fef463e34324c5dbd2d15a0d4d966084629c196f94b10c7e17c5527c3eb490c0789b07f1edff013812957a22  use-system-ca-certs.patch
-ba95f21b1e80717ef63941854e7ed412f64a91da068c0dbf0d6d9697333ee266c9f4cd7bf1a01111eeb28aa66adefd8a58cfb3e82debb84b43e35e9dc914dd36  dont-run-gyp-files-for-bundled-deps.patch"
+5c2c4863d5b38ca0bbd81aa8ff5e721cfd3d8c07fef463e34324c5dbd2d15a0d4d966084629c196f94b10c7e17c5527c3eb490c0789b07f1edff013812957a22  use-system-ca-certs.patch"
