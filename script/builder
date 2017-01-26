@@ -17,16 +17,16 @@ prepare() {
 }
 
 sync() {
-  [ "$AWS_ACCESS_KEY_ID" ] && [ "$AWS_SECRET_ACCESS_KEY" ] && {
-    case "$1" in
-      up)
+  case "$1" in
+    up)
+      [ "$AWS_ACCESS_KEY_ID" ] && [ "$AWS_SECRET_ACCESS_KEY" ] && {
         aws s3 sync $REPODEST $REPOREMOTE
-        ;;
-      down)
-        aws s3 sync $REPOREMOTE $REPODEST
-        ;;
-    esac
-  } || echo ">>> s3: No AWS credentials not running sync"
+      } || echo ">>> s3: No AWS credentials not running sync"
+      ;;
+    down)
+      aws s3 sync $REPOREMOTE $REPODEST
+      ;;
+  esac
 }
 
 main() {
