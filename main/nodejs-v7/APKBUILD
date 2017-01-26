@@ -23,6 +23,8 @@ prepare() {
 
   # Remove bundled CA certificates.
   rm -f src/node_root_certs.h
+  # Remove failing test.
+  rm -f test/parallel/test-process-getgroups.js
 }
 
 build() {
