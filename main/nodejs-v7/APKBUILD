@@ -2,7 +2,7 @@
 # Maintainer: Ed Robinson <ed@reevoo.com>
 pkgname=nodejs
 pkgver=7.4.0
-pkgrel=102
+pkgrel=101
 pkgdesc="JavaScript runtime built on V8 engine - current stable version"
 url="http://nodejs.org/"
 arch="all"
@@ -41,7 +41,7 @@ build() {
   make -C out mksnapshot BUILDTYPE=Release \
     && paxmark -m out/Release/mksnapshot \
     && make || return 1
-  make test test-npm || return 1
+  make test || return 1
 }
 
 package() {
