@@ -1,0 +1,37 @@
+# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+pkgname=gsl
+pkgver=2.2.1
+pkgrel=100
+pkgdesc="The GNU Scientific Library (GSL) is a modern numerical library for C and C++ programmers"
+url="http://www.gnu.org/software/gsl/gsl.html"
+arch="all"
+license="GPL"
+depends=
+makedepends=
+install=
+subpackages="$pkgname-dev $pkgname-doc"
+source="http://ftp.gnu.org/gnu/gsl/gsl-$pkgver.tar.gz
+  dont-disable-deprecated.patch"
+
+_builddir="$srcdir"/$pkgname-$pkgver
+
+build() {
+  cd "$_builddir"
+  ./configure \
+    --build=$CBUILD \
+    --host=$CHOST \
+    --prefix=/usr \
+    || return 1
+  make || return 1
+}
+
+package() {
+  cd "$_builddir"
+  make DESTDIR="$pkgdir" install || return 1
+}
+md5sums="3d90650b7cfe0a6f4b29c2d7b0f86458  gsl-2.2.1.tar.gz
+7e0b27f4b058e0a07484ff356ea2ea95  dont-disable-deprecated.patch"
+sha256sums="13d23dc7b0824e1405f3f7e7d0776deee9b8f62c62860bf66e7852d402b8b024  gsl-2.2.1.tar.gz
+4600410cbd692d04dd4abe3e3112ccb6e6e953b1df2f0258fad2167908d08bed  dont-disable-deprecated.patch"
+sha512sums="834210d91db6bc4be1df0c0be8e66af16bdf607bfc9d9d33bc240c428e3452e60bdab92240b88dcb15f24171be541e1fafa18368c7a257a44241e568c1c11942  gsl-2.2.1.tar.gz
+50bdad6312b04b61510fe698a00d38e010c85d976890950e43e1050e09588234ec353ba7cfea0ac3a3743e41e0a2747934d85db74aa0f29cfde64df3df0227f4  dont-disable-deprecated.patch"
