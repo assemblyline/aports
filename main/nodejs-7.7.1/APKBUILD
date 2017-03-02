@@ -58,9 +58,9 @@ package() {
   done
 }
 
-md5sums="9732aba61759bc97d2bb2e7d82453f83  node-v7.4.0.tar.gz
+md5sums="559b29d57a5ad2bc04129d5f39b3ce5b  node-v7.7.1.tar.gz
 391dadece3caea603003e022d90ba87b  use-system-ca-certs.patch"
-sha256sums="69b76c86e6fc9914fa136089d8c28a4828c14aa8792cbdf946090a5a2afd25b6  node-v7.4.0.tar.gz
+sha256sums="9e87ec5420d558ca9651d13b10dd4a1be954fea0fc7a909016a1cc4aedfa651c  node-v7.7.1.tar.gz
 dad9470333c07df46bcb46823ce6bf6d606b4146cf9996ef847c458befde8219  use-system-ca-certs.patch"
-sha512sums="2f69502430d3940b711ef46d7b400b5983234c47114e1729fe94c5b81bd4ea78917c2dba755bc6e6343a788b95553b9a39ae778daa9903407bf76caa07d82f85  node-v7.4.0.tar.gz
+sha512sums="d6d46247b2eaa327dbbead2f929beeba09930fe9aef350fc7dc7ec976dc1dbdbeae41074cdd3c2f6671ebe4a8a086b0491f97d0af38bda1506cea2eaa23b348a  node-v7.7.1.tar.gz
 5c2c4863d5b38ca0bbd81aa8ff5e721cfd3d8c07fef463e34324c5dbd2d15a0d4d966084629c196f94b10c7e17c5527c3eb490c0789b07f1edff013812957a22  use-system-ca-certs.patch"
