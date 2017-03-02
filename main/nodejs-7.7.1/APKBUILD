@@ -3,7 +3,7 @@
 _name=nodejs
 pkgver=7.7.1
 pkgname="$_name$pkgver"
-pkgrel=101
+pkgrel=0
 pkgdesc="JavaScript runtime built on V8 engine - current stable version"
 url="http://nodejs.org/"
 arch="all"
