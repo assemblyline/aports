@@ -1,8 +1,9 @@
 # Contributor: Carlo Landmeter <clandmeter@gmail.com>
 # Maintainer: Ed Robinson <ed@reevoo.com>
-pkgname=ruby
-pkgver=2.3.3
-_abiver=2.3.0
+pkgname=ruby2.4.0
+_name=ruby
+pkgver=2.4.0
+_abiver=2.4.0
 _rubygemsver=2.6.10
 _bundlerver=1.14.3
 pkgrel=100
@@ -11,19 +12,20 @@ url="http://www.ruby-lang.org/en/"
 arch="all"
 license="Ruby"
 depends=""
+provides="$_name"
 depends_dev="gmp-dev"
 makedepends="$depends_dev zlib-dev libressl-dev gdbm-dev db-dev readline-dev
-	libffi-dev coreutils yaml-dev autoconf linux-headers ruby2.2"
+	libffi-dev coreutils yaml-dev autoconf linux-headers"
 subpackages="$pkgname-doc $pkgname-dev $pkgname-irb::noarch
 	$pkgname-rdoc::noarch $pkgname-rake::noarch $pkgname-minitest::noarch
 	$pkgname-did_you_mean::noarch $pkgname-net-telnet::noarch
 	$pkgname-power_assert::noarch $pkgname-test-unit::noarch $pkgname-libs
 	"
-source="https://cache.ruby-lang.org/pub/$pkgname/${pkgver%.*}/$pkgname-$pkgver.tar.gz
+source="https://cache.ruby-lang.org/pub/$_name/${pkgver%.*}/$_name-$pkgver.tar.gz
 https://rubygems.org/rubygems/rubygems-$_rubygemsver.tgz"
 options="!fhs"
 replaces="ruby-gems"
-builddir="$srcdir/$pkgname-$pkgver"
+builddir="$srcdir/$_name-$pkgver"
 
 _gemdir="/usr/lib/ruby/gems/$_abiver"
 _rubydir="/usr/lib/ruby/$_abiver"
@@ -72,7 +74,6 @@ build() {
 		--infodir=/usr/share/info \
 		--with-sitedir='/usr/local/lib/site_ruby' \
 		--with-search-path="/usr/lib/site_ruby/\$(ruby_ver)/$_arch-linux" \
-                --with-baseruby="$(which ruby2.2)" \
 		--enable-pthread \
 		--disable-rpath \
 		--enable-shared \
@@ -101,7 +102,7 @@ package() {
 			return 1
 		fi
 	fi
-	install -m 644 -D COPYING "$pkgdir"/usr/share/licenses/$pkgname/COPYING
+	install -m 644 -D COPYING "$pkgdir"/usr/share/licenses/$_name/COPYING
 }
 
 rake() {
@@ -193,9 +194,9 @@ _mvgem() {
 	done
 }
 
-md5sums="e485f3a55649eb24a1e2e1a40bc120df  ruby-2.3.3.tar.gz
+md5sums="7e9485dcdb86ff52662728de2003e625  ruby-2.4.0.tar.gz
 ab5a0028d2a0653691b29d7463bd0892  rubygems-2.6.10.tgz"
-sha256sums="241408c8c555b258846368830a06146e4849a1d58dcaf6b14a3b6a73058115b7  ruby-2.3.3.tar.gz
+sha256sums="152fd0bd15a90b4a18213448f485d4b53e9f7662e1508190aa5b702446b29e3d  ruby-2.4.0.tar.gz
 364c0eee8e0c9e8ab4879c5035832e5a27f0c97292d2264af5ae0020585280f0  rubygems-2.6.10.tgz"
-sha512sums="80d9f3aaf1d60b9b2f4a6fb8866713ce1e201a3778ef9e16f1bedb7ccda35aefdd7babffbed1560263bd95ddcfe948f0c9967b5077a89db8b2e18cacc7323975  ruby-2.3.3.tar.gz
+sha512sums="21c9f596b42dd9cba7a53963a59fed0c2e0c1eb960a4ac7087ea3eaa991ce9252d32639e1edcb75b1d709bc07c4820a6dc336ab427d0643c6e6498e0eacdbc8b  ruby-2.4.0.tar.gz
 5f771e26fa57290a7dfb4c50778af4617964bb72141e757f538da2619ac36fa247715fb3f8cff314e5a573b27a38439c9a8a96fd37d806554e6f37d49608f6b7  rubygems-2.6.10.tgz"

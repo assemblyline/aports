@@ -1,16 +1,18 @@
 # Contributor: Carlo Landmeter <clandmeter@gmail.com>
 # Maintainer: Ed Robinson <ed@reevoo.com>
-pkgname=ruby
+pkgname=ruby2.2.6
+_name=ruby
 pkgver=2.2.6
 _abiver=2.2.0
 _rubygemsver=2.6.10
-_bundlerver=1.14.3
-pkgrel=100
+_bundlerver=1.14.5
+pkgrel=0
 pkgdesc="An object-oriented language for quick and easy programming"
 url="http://www.ruby-lang.org/en/"
 arch="all"
 license="Ruby"
 depends=""
+provides="$_name"
 depends_dev="gmp-dev"
 makedepends="$depends_dev zlib-dev libressl-dev gdbm-dev db-dev readline-dev
 	libffi-dev coreutils yaml-dev autoconf linux-headers ruby2.2"
@@ -18,11 +20,11 @@ subpackages="$pkgname-doc $pkgname-dev $pkgname-irb::noarch
 	$pkgname-rdoc::noarch $pkgname-rake::noarch $pkgname-minitest::noarch
 	$pkgname-power_assert::noarch $pkgname-test-unit::noarch $pkgname-libs
 	"
-source="https://cache.ruby-lang.org/pub/$pkgname/${pkgver%.*}/$pkgname-$pkgver.tar.gz
+source="https://cache.ruby-lang.org/pub/$_name/${pkgver%.*}/$_name-$pkgver.tar.gz
 https://rubygems.org/rubygems/rubygems-$_rubygemsver.tgz"
 options="!fhs"
 replaces="ruby-gems"
-builddir="$srcdir/$pkgname-$pkgver"
+builddir="$srcdir/$_name-$pkgver"
 
 _gemdir="/usr/lib/ruby/gems/$_abiver"
 _rubydir="/usr/lib/ruby/$_abiver"
@@ -100,7 +102,7 @@ package() {
 			return 1
 		fi
 	fi
-	install -m 644 -D COPYING "$pkgdir"/usr/share/licenses/$pkgname/COPYING
+	install -m 644 -D COPYING "$pkgdir"/usr/share/licenses/$_name/COPYING
 }
 
 rake() {
