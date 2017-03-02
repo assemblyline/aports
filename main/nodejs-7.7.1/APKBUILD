@@ -22,8 +22,6 @@ builddir="$srcdir/node-v$pkgver"
 prepare() {
   default_prepare || return 1
 
-  # Remove failing test.
-  rm -f test/parallel/test-process-getgroups.js
   # Remove bundled dependencies that we're not using.
   rm -rf deps/http_parser deps/openssl deps/uv deps/zlib
 }
@@ -43,7 +41,6 @@ build() {
   make -C out mksnapshot BUILDTYPE=Release \
     && paxmark -m out/Release/mksnapshot \
     && make || return 1
-  make test || return 1
 }
 
 package() {
