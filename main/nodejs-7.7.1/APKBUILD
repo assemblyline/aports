@@ -14,7 +14,8 @@ depends_dev="libuv"
 makedepends="$depends_dev python2 openssl-dev zlib-dev libuv-dev linux-headers
   paxmark binutils-gold http-parser-dev ca-certificates procps"
 subpackages="$pkgname-dev $pkgname-doc $pkgname-npm"
-replaces="nodejs nodejs-lts"  # nodejs-lts for backward compatibility
+provides="nodejs"
+replaces="nodejs nodejs-current"
 source="https://nodejs.org/dist/v$pkgver/node-v$pkgver.tar.gz
   dont-run-gyp-files-for-bundled-deps.patch"
 builddir="$srcdir/node-v$pkgver"
