@@ -67,7 +67,9 @@ package() {
 npm() {
         pkgdesc="a JavaScript package manager"
         depends="$pkgname"
+        mkdir -p "$subpkgdir"/usr/bin
         mv "$pkgdir"/usr/bin/npm "$subpkgdir"/usr/bin/npm
+        mkdir -p "$subpkgdir"/usr/lib/node_modules
         mv "$pkgdir"/usr/lib/node_modules/npm "$subpkgdir"/usr/lib/node_modules/
 }
 
