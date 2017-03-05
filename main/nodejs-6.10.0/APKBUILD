@@ -7,7 +7,7 @@
 _name=nodejs
 pkgver=6.10.0
 pkgname="$_name$pkgver"
-pkgrel=0
+pkgrel=1
 pkgdesc="JavaScript runtime built on V8 engine - LTS version"
 url="http://nodejs.org/"
 arch="all"
@@ -17,7 +17,7 @@ depends_dev="libuv"
 # gold is needed for mksnapshot
 makedepends="$depends_dev python2 openssl-dev zlib-dev libuv-dev linux-headers
   paxmark binutils-gold http-parser-dev ca-certificates"
-subpackages="$pkgname-dev $pkgname-doc"
+subpackages="$pkgname-dev $pkgname-doc $pkgname-npm"
 provides="nodejs-lts=$pkgver"  # for backward compatibility
 replaces="nodejs-current nodejs-lts"  # nodejs-lts for backward compatibility
 source="https://nodejs.org/dist/v$pkgver/node-v$pkgver.tar.gz
@@ -64,9 +64,11 @@ package() {
   done
 }
 
-dev() {
-  provides="nodejs-lts-dev=$pkgver"  # for backward compatibility
-  default_dev
+npm() {
+        pkgdesc="a JavaScript package manager"
+        depends="$pkgname"
+        mv "$pkgdir"/usr/bin/npm "$subpkgdir"/usr/bin/npm
+        mv "$pkgdir"/usr/lib/node_modules/npm "$subpkgdir"/usr/lib/node_modules/
 }
 
 md5sums="6ed4e31b3e48843d744587435809e7d1  node-v6.10.0.tar.gz
