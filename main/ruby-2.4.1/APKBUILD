@@ -6,7 +6,7 @@ pkgver=2.4.1
 _abiver=2.4.0
 _rubygemsver=2.6.10
 _bundlerver=1.14.6
-pkgrel=101
+pkgrel=102
 pkgdesc="An object-oriented language for quick and easy programming"
 url="http://www.ruby-lang.org/en/"
 arch="all"
@@ -84,7 +84,7 @@ build() {
 
         # adds bundler to bundled gems
         make runruby TESTRUN_SCRIPT="bin/gem install -N --install-dir ./ bundler -v $_bundlerver" || return 1
-        printf "bundle $_bundlever\n" >> gems/bundled_gems
+        printf "bundler $_bundlever\n" >> gems/bundled_gems
 
 	make test || return 1
 }
