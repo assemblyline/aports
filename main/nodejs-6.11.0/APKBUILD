@@ -28,9 +28,6 @@ builddir="$srcdir/node-v$pkgver"
 prepare() {
   default_prepare || return 1
 
-  # Remove bundled CA certificates.
-  rm -f src/node_root_certs.h
-
   # Remove bundled dependencies that we're not using.
   rm -rf deps/http_parser deps/openssl deps/uv deps/zlib
 }
@@ -43,6 +40,7 @@ build() {
     --shared-libuv \
     --shared-openssl \
     --shared-http-parser \
+    --openssl-use-def-ca-store \
     || return 1
 
   # we need run mksnapshot at build time so paxmark it early
@@ -64,6 +62,15 @@ package() {
   done
 }
 
+
+dev() {
+  default_dev || return 1
+
+  # Remove some junk.
+  rm -r "$subpkgdir"/usr/lib/node_modules
+  rmdir -p "$subpkgdir"/usr/lib || :
+}
+
 npm() {
         pkgdesc="a JavaScript package manager"
         depends="$pkgname"
@@ -74,5 +81,5 @@ npm() {
 }
 
 sha512sums="a298232f6393735f2d459eb23f78089dd7eb1bae4907dfe61b286ceb8f93d3131c2dd45f09643089d00e2a4bef0f35739c9c8984f88b34c0ab515793f38eda46  node-v6.11.0.tar.gz
-b796a76161aa6b18863cb1327402f7a81278740911f4716aa24746c501e150a00ba900b15ba5ca44fef9ecf676c89fb07776a8083f350caf9189eb037bc9d43b  use-system-ca-certs.patch
+316a09f697e244c48d4dcf26ca2bb7e2441fc01ed61ad6b987e24741f93cfcf29f2e6de736ab9e4c014355cd14dd63ae7de1f8c28b5274e3225b1b3412db11d4  use-system-ca-certs.patch
 a8be538158b7c96341a407acba30450ddc5c3ad764e7efe728d1ceff64efc3067b177855b9ef91b54400be6a02600d83da4c21a07ae9d7dc0774f92b2006ea8b  dont-run-gyp-files-for-bundled-deps.patch"
