@@ -4,9 +4,9 @@ pkgname=ruby2.4.1
 _name=ruby
 pkgver=2.4.1
 _abiver=2.4.0
-_rubygemsver=2.6.10
-_bundlerver=1.14.6
-pkgrel=102
+_rubygemsver=2.6.13
+_bundlerver=1.15.4
+pkgrel=103
 pkgdesc="An object-oriented language for quick and easy programming"
 url="http://www.ruby-lang.org/en/"
 arch="all"
@@ -194,9 +194,5 @@ _mvgem() {
 	done
 }
 
-md5sums="782bca562e474dd25956dd0017d92677  ruby-2.4.1.tar.gz
-ab5a0028d2a0653691b29d7463bd0892  rubygems-2.6.10.tgz"
-sha256sums="a330e10d5cb5e53b3a0078326c5731888bb55e32c4abfeb27d9e7f8e5d000250  ruby-2.4.1.tar.gz
-364c0eee8e0c9e8ab4879c5035832e5a27f0c97292d2264af5ae0020585280f0  rubygems-2.6.10.tgz"
 sha512sums="6cddac19733870f372750a276a2c59f99dea9a17731cd7c24a44b615794ff1a5d194660949628217107f2301f3b1ff3b6c18223896c87c76e84c64f4078769dc  ruby-2.4.1.tar.gz
-5f771e26fa57290a7dfb4c50778af4617964bb72141e757f538da2619ac36fa247715fb3f8cff314e5a573b27a38439c9a8a96fd37d806554e6f37d49608f6b7  rubygems-2.6.10.tgz"
+c952b6061a9a0778db304c3aa5bea693e71ae2564abfb19f8b123eef66eb1e3877fc7c36f4f1527da97bb320870cbfd4574ac57ad88e850a44fadd67ebdac152  rubygems-2.6.13.tgz"
