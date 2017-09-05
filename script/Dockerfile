@@ -1,4 +1,4 @@
-FROM alpine:3.5
+FROM alpine:edge
 RUN apk --no-cache add alpine-sdk coreutils python py-pip su-exec \
   && pip install awscli
 COPY builder prepare_user /bin/
