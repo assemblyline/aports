@@ -1,6 +1,6 @@
 # Contributor: Carlo Landmeter <clandmeter@gmail.com>
 # Maintainer: Ed Robinson <ed@reevoo.com>
-pkgname=ruby2.3.4
+pkgname=ruby2.3.5
 _name=ruby
 pkgver=2.3.5
 _abiver=2.3.0
