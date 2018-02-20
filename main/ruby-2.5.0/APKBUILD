@@ -19,7 +19,7 @@ pkgname=ruby2.5.0
 _name=ruby
 pkgver=2.5.0
 _abiver="${pkgver%.*}.0"
-pkgrel=0
+pkgrel=1
 _rubygemsver=2.7.4
 _bundlerver=1.16.1
 pkgdesc="An object-oriented language for quick and easy programming"
@@ -30,7 +30,7 @@ provides="$_name"
 depends="ca-certificates"
 depends_dev="gmp-dev"
 makedepends="$depends_dev zlib-dev libressl-dev gdbm-dev db-dev readline-dev
-  libffi-dev coreutils yaml-dev linux-headers autoconf"
+  libffi-dev coreutils yaml-dev linux-headers autoconf ruby"
 subpackages="$pkgname-doc $pkgname-dev
   $pkgname-did_you_mean::noarch
   $pkgname-irb::noarch
@@ -108,6 +108,11 @@ build() {
     --enable-shared \
     --with-mantype=man
   make
+
+  # adds bundler to bundled gems
+  printf "bundler $_bundlerver https://github.com/bundler/bundler\n" >> gems/bundled_gems
+  make update-gems
+  make extract-gems
 }
 
 check() {
