@@ -31,7 +31,6 @@ depends="ca-certificates"
 depends_dev="gmp-dev"
 makedepends="$depends_dev zlib-dev libressl-dev gdbm-dev db-dev readline-dev
   libffi-dev coreutils yaml-dev linux-headers autoconf"
-install="$pkgname.post-upgrade"
 subpackages="$pkgname-doc $pkgname-dev
   $pkgname-did_you_mean::noarch
   $pkgname-irb::noarch
