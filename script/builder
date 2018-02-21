@@ -2,8 +2,12 @@
 
 set -eu
 
+if [ "$LOCAL" ]; then
+  set -x
+fi
+
 builddirs() {
-  dirname $(find main -path "*/APKBUILD" -type f)
+  dirname $(find main/${PACKAGE:-*}/ -type f -name APKBUILD)
 }
 
 prepare() {
@@ -17,6 +21,11 @@ prepare() {
 }
 
 sync() {
+  if [ "$LOCAL" ]; then
+    echo ">>> s3: Running in local mode, will not sync"
+    return 0
+  fi
+
   case "$1" in
     up)
       [ "$AWS_ACCESS_KEY_ID" ] && [ "$AWS_SECRET_ACCESS_KEY" ] && {
