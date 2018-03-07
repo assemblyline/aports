@@ -15,7 +15,7 @@ depends=""
 provides="$_name"
 depends_dev="gmp-dev"
 makedepends="$depends_dev zlib-dev libressl-dev gdbm-dev db-dev readline-dev
-	libffi-dev coreutils yaml-dev autoconf linux-headers ruby2.2"
+	libffi-dev coreutils yaml-dev autoconf linux-headers ruby"
 subpackages="$pkgname-doc $pkgname-dev $pkgname-irb::noarch
 	$pkgname-rdoc::noarch $pkgname-rake::noarch $pkgname-minitest::noarch
 	$pkgname-did_you_mean::noarch $pkgname-net-telnet::noarch
@@ -74,7 +74,7 @@ build() {
 		--infodir=/usr/share/info \
 		--with-sitedir='/usr/local/lib/site_ruby' \
 		--with-search-path="/usr/lib/site_ruby/\$(ruby_ver)/$_arch-linux" \
-                --with-baseruby="$(which ruby2.2)" \
+                --with-baseruby="$(which ruby)" \
 		--enable-pthread \
 		--disable-rpath \
 		--enable-shared \
