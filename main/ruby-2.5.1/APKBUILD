@@ -29,7 +29,7 @@ license="Ruby BSD-2-Clause"
 provides="$_name"
 depends="ca-certificates"
 depends_dev="gmp-dev"
-makedepends="$depends_dev zlib-dev libressl-dev=2.5.5-r0 gdbm-dev db-dev readline-dev
+makedepends="$depends_dev zlib-dev libressl-dev=2.6.4-r0 gdbm-dev db-dev readline-dev
   libffi-dev coreutils yaml-dev linux-headers autoconf ruby"
 subpackages="$pkgname-doc $pkgname-dev
   $pkgname-did_you_mean::noarch
