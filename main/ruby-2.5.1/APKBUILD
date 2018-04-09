@@ -29,7 +29,7 @@ license="Ruby BSD-2-Clause"
 provides="$_name"
 depends="ca-certificates"
 depends_dev="gmp-dev"
-makedepends="$depends_dev zlib-dev libressl-dev=2.6.4-r0 gdbm-dev db-dev readline-dev
+makedepends="$depends_dev zlib-dev libressl-dev gdbm-dev db-dev readline-dev
   libffi-dev coreutils yaml-dev linux-headers autoconf ruby"
 subpackages="$pkgname-doc $pkgname-dev
   $pkgname-did_you_mean::noarch
@@ -41,7 +41,7 @@ subpackages="$pkgname-doc $pkgname-dev
   $pkgname-rdoc::noarch
   $pkgname-libs
   "
-source="https://cache.ruby-lang.org/pub/$_name/${pkgver%.*}/$_name-$pkgver.tar.gz
+source="ftp://ftp.ruby-lang.org/pub/$_name/${pkgver%.*}/$_name-$pkgver.tar.xz
         https://rubygems.org/rubygems/rubygems-$_rubygemsver.tgz
         rubygems-avoid-platform-specific-gems.patch
         test_insns-lower-recursion-depth.patch"
@@ -254,7 +254,7 @@ _mvgem() {
   done
 }
 
-sha512sums="67badcd96fd3808cafd6bc86c970cd83aee7e5ec682f34e7353663d96211a6af314a4c818e537ec8ca51fbc0737aac4e28e0ebacf1a4d1e13db558b623a0f6b1  ruby-2.5.1.tar.gz
+sha512sums="31bacf58469953282cd5d8b51862dcf4b84dedb927c1871bc3fca32fc157fe49187631575a70838705fe246f4555647577a7ecc26894445a7d64de5503dc11b4  ruby-2.5.1.tar.xz
 90f72a46709ef847666a6a23eecf24521abd5c294b2da8a246bb4c7f85daf4af39a0634fc8093c7bb7ded2ac137ea27fac5ed94af3b70c49e78594285c7a40ce  rubygems-2.7.4.tgz
 cfdc5ea3b2e2ea69c51f38e8e2180cb1dc27008ca55cc6301f142ebafdbab31c3379b3b6bba9ff543153876dd98ed2ad194df3255b7ea77a62e931c935f80538  rubygems-avoid-platform-specific-gems.patch
 814fe6359505b70d8ff680adf22f20a74b4dbd3fecc9a63a6c2456ee9824257815929917b6df5394ed069a6869511b8c6dce5b95b4acbbb7867c1f3a975a0150  test_insns-lower-recursion-depth.patch"
